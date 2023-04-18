@@ -10,8 +10,6 @@ public class DatabaseConnection {
     int count;
 
     public DatabaseConnection() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
-
         String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true";
         connection = DriverManager.getConnection(url, "root", "1234");
     }

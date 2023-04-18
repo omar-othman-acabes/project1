@@ -11,7 +11,6 @@ public class TransactionsDao {
     private final PreparedStatement preparedStatement;
 
     public TransactionsDao() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
         counter=0;
 
         String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true";
