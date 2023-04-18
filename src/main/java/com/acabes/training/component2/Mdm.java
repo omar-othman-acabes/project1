@@ -5,11 +5,12 @@ import java.util.LinkedList;
 
 public class Mdm {
 
-	private LinkedList<Transaction> initialTransactions = new LinkedList<Transaction>();
-	private LinkedList<FullTransaction> fullTransactions = new LinkedList<FullTransaction>();
+	private final LinkedList<Transaction> initialTransactions ;
+	private final LinkedList<FullTransaction> fullTransactions ;
 
 	public Mdm(LinkedList<Transaction> initialTransactions) throws IOException {
 		this.initialTransactions = initialTransactions;
+		fullTransactions = new LinkedList<>();
 		getFullTransactionData();
 		Writer writer = new Writer(fullTransactions);
 	}
@@ -35,7 +36,7 @@ public class Mdm {
 		String asciiName = "";
 		for (int i = 0; i < idString.length(); i++) {
 			char character = idString.charAt(i);
-			asciiName.concat(String.valueOf(character));
+			asciiName = asciiName.concat(String.valueOf(character + 67));
 
 		}
 
