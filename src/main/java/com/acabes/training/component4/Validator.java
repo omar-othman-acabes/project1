@@ -1,6 +1,7 @@
 package com.acabes.training.component4;
 
 import com.acabes.training.Main;
+import com.acabes.training.Utils;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -12,14 +13,6 @@ public class Validator {
     public void setPath(FileName fileName, String path) {
         pathsMap.put(fileName, path);
     }
-
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Validator validator = new Validator();
-        validator.validate();
-    }
-
-    int databaseRecords;
-    long databaseTotal;
 
     HashMap<FileName, Info> infoMap = new HashMap<>();
     HashMap<FileName, String> pathsMap = new HashMap<>();
@@ -79,8 +72,8 @@ public class Validator {
     }
 
     public void validate() {
-        setPath(FileName.STARTING, Main.resourcesPath + "/payment.csv");
-        setPath(FileName.FULL, Main.resourcesPath + "/payment_full.csv");
+        setPath(FileName.STARTING, Utils.resourcesPath + "/payment.csv");
+        setPath(FileName.FULL, Utils.resourcesPath + "/payment_full.csv");
 
         // import starting file
         try {
@@ -122,5 +115,10 @@ public class Validator {
 
     enum FileName {
         STARTING, FULL, DATABASE
+    }
+
+    public static void main(String[] args) throws SQLException, ClassNotFoundException {
+        Validator validator = new Validator();
+        validator.validate();
     }
 }
