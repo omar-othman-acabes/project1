@@ -1,4 +1,4 @@
-package com.acabes.training.component3;
+package com.acabes.training.component4;
 
 public class Validator {
     public void setStartingFile(String path) {
