@@ -8,12 +8,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 public class Writer {
-    public LinkedList<FullTransaction> paymentList = new LinkedList<>();
+    public LinkedList<FullTransaction> fullTransactions = new LinkedList<>();
     int rowsNumber;
 
-    public Writer(LinkedList<FullTransaction> paymentList, int rowsNumber) throws IOException {
-        this.paymentList = paymentList;
-        this.rowsNumber = rowsNumber;
+    public Writer(LinkedList<FullTransaction> fullTransactions) throws IOException {
+        this.fullTransactions = fullTransactions;
         writeCSVFile();
     }
 
@@ -29,14 +28,27 @@ public class Writer {
         File directory = new File(directoryPath);
         directory.mkdirs();
 
+        // create FileWriter object with file as parameter
         FileWriter writer = new FileWriter(filePath);
+
+        // create CSVWriter object filewriter object as parameter
         writer.append("From Account, From Account Name,To Account, To Account Name ,Amount\n");
 
-        for(int i = 0; i < rowsNumber; i++)
+        for(int i = 0; i < fullTransactions.size(); i++)
         {
-
+            String fromAccountName = fullTransactions.get(i).getFromAccountName();
+            String toAccountName = fullTransactions.get(i).getToAccountName();
+            String fromAccountNumber = String.valueOf(fullTransactions.get(i).getFromAccountNumber());
+            String toAccountNumber = String.valueOf(fullTransactions.get(i).getToAccountNumber());
+            String amount = String.valueOf(fullTransactions.get(i).getAmount());
+            writer.append(fromAccountName).append(",");
+            writer.append(fromAccountNumber).append(",");
+            writer.append(toAccountName).append(",");
+            writer.append(toAccountNumber).append(",");
+            writer.append(amount).append(",");
 
         }
+        writer.close();
 
 
 

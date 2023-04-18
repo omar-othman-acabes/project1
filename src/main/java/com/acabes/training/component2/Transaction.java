@@ -1,30 +1,30 @@
 package com.acabes.training.component2;
 
 public class Transaction {
-	private int accountFrom;
-	private int accountTo;
+	private int fromAccountNumber;
+	private int toAccountNumber;
 	private double amount;
 
-	public Transaction(int accountFrom, int accountTo, double amount) {
-		this.accountFrom = accountFrom;
-		this.accountTo = accountTo;
+	public Transaction(int fromAccountNumber, int toAccountNumber, double amount) {
+		this.fromAccountNumber = fromAccountNumber;
+		this.toAccountNumber = toAccountNumber;
 		this.amount = amount;
 	}
 
-	public int getAccountFrom() {
-		return accountFrom;
+	public int getFromAccountNumber() {
+		return fromAccountNumber;
 	}
 
-	public void setAccountFrom(int accountFrom) {
-		this.accountFrom = accountFrom;
+	public void setFromAccountNumber(int fromAccountNumber) {
+		this.fromAccountNumber = fromAccountNumber;
 	}
 
-	public int getAccountTo() {
-		return accountTo;
+	public int getToAccountNumber() {
+		return toAccountNumber;
 	}
 
-	public void setAccountTo(int accountTo) {
-		this.accountTo = accountTo;
+	public void setToAccountNumber(int toAccountNumber) {
+		this.toAccountNumber = toAccountNumber;
 	}
 
 	public double getAmount() {
