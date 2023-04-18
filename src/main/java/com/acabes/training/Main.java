@@ -1,9 +1,11 @@
 package com.acabes.training;
 
 import com.acabes.training.component1.PaymentFileWriter;
+import com.acabes.training.component2.Reader;
 import com.acabes.training.component3.DataHandler;
 import com.acabes.training.component4.Validator;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Duration;
@@ -48,7 +50,9 @@ public class Main {
         new PaymentFileWriter().createRandomStartingFile();
     }
 
-    public static void runComponent2() {
+    public static void runComponent2() throws NumberFormatException, FileNotFoundException {
+    	Reader re = new Reader();
+		re.readDataLineByLine();
 
     }
 

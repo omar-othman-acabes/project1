@@ -8,6 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 import com.acabes.training.Main;
+import com.acabes.training.Utils;
 
 public class Writer {
     public LinkedList<FullTransaction> fullTransactions = new LinkedList<>();
@@ -25,9 +26,8 @@ public class Writer {
     			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
     			String date = currentDateTime.format(dateFormat);
 
-    			// Replace "date1" with the actual date in the file path
-    			// replace Thinkpad_15 to your user name
-    			String filePath = Main.resourcesPath + "/payments-full" + date + ".csv";
+    		
+    			String filePath =	Utils.getFullFilePath();
 
         String directoryPath = new File(filePath).getParent();
         File directory = new File(directoryPath);

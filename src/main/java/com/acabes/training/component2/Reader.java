@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 import com.acabes.training.Main;
+import com.acabes.training.Utils;
 
 public class Reader {
 	public static void readDataLineByLine() throws FileNotFoundException, NumberFormatException {
@@ -18,7 +19,7 @@ public class Reader {
 		String date = currentDateTime.format(dateFormat);
 
 		try (BufferedReader br = new BufferedReader(
-				new FileReader(Main.resourcesPath + "\\payments-" + date + ".csv"))) {
+				new FileReader(Utils.getStartingFilePath()))) {
 			System.out.println(java.time.LocalDate.now());
 
 			br.readLine();
