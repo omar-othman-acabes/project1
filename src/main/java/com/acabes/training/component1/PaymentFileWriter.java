@@ -1,5 +1,7 @@
 package com.acabes.training.component1;
 
+import com.acabes.training.Main;
+
 import java.io.*;
 import java.time.*;
 import java.time.format.*;
@@ -7,16 +9,17 @@ import java.util.Scanner;
 import java.util.Random;
 
 public class PaymentFileWriter {
-	public static void main(String[] args) throws IOException {
+
+	public void createRandomStartingFile() throws IOException {
 		// Get the current date and time
 		LocalDateTime currentDateTime = LocalDateTime.now();
 		// Format the current date in "dd/MM/yyyy" format
-		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 		String date1 = currentDateTime.format(dateFormat);
 
 		// Replace "date1" with the actual date in the file path
 		// replace Thinkpad_15 to your user name
-		String filePath = "C:\\Users\\Thinkpad_15\\Desktop\\" + date1.replace("/", "-") + ".csv";
+		String filePath = Main.resourcesPath + "/payments-" + date1 + ".csv";
 
 		// Create the directory if it doesn't exist
 		String directoryPath = new File(filePath).getParent();
@@ -44,5 +47,8 @@ public class PaymentFileWriter {
 		}
 		writer.close();
 		System.out.print("Done!");
+	}
+	public static void main(String[] args) throws IOException {
+		new PaymentFileWriter().createRandomStartingFile();
 	}
 }

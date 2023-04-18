@@ -1,5 +1,7 @@
 package com.acabes.training.component4;
 
+import com.acabes.training.Main;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -69,7 +71,7 @@ public class Validator {
     }
 
     public boolean matchTotal() {
-        return getTotal(FileName.STARTING) == getTotal(FileName.FULL);
+        return getTotal(FileName.STARTING) == getTotal(FileName.FULL) && getTotal(FileName.STARTING) == getTotal(FileName.DATABASE);
     }
 
     public boolean matchCount() {
@@ -77,8 +79,8 @@ public class Validator {
     }
 
     public void validate() {
-        setPath(FileName.STARTING, "src/main/resources/payment.csv");
-        setPath(FileName.FULL, "src/main/resources/payment_full.csv");
+        setPath(FileName.STARTING, Main.resourcesPath + "/payment.csv");
+        setPath(FileName.FULL, Main.resourcesPath + "/payment_full.csv");
 
         // import starting file
         try {
@@ -103,6 +105,7 @@ public class Validator {
             throw new RuntimeException(e);
         }
 
+        // matching
         if (matchTotal()) {
             System.out.println("Total is matching");
         } else {
@@ -116,6 +119,7 @@ public class Validator {
         }
 
     }
+
     enum FileName {
         STARTING, FULL, DATABASE
     }
