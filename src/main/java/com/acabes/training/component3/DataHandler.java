@@ -8,11 +8,11 @@ import java.sql.SQLException;
 public class DataHandler {
 	private final TransactionsDao transactionsDao;
 
-	public DataHandler() throws SQLException {
+	public DataHandler() throws SQLException, ClassNotFoundException {
 		this.transactionsDao = new TransactionsDao();
 	}
 
-	private final String PATH = "C:/Users/THINKPAD_6/Downloads/MOCK_DATA.csv";
+	private final String PATH = "src/main/resources/payment_full.csv";
 
 	public void readFile() throws IOException, SQLException {
 		
@@ -29,6 +29,7 @@ public class DataHandler {
 			transactionsDao.insert(currentTransaction);
 
 		}
+		transactionsDao.executeOnce();
 		bufferedReader.close();
 		long totalTime = System.currentTimeMillis() /1000 - startTime;
 		
