@@ -6,26 +6,26 @@ import java.sql.*;
 public class TransactionsDao {
 
     private static Connection connection;
-    private int counter = 0;
+    private int counter;
 
-    private PreparedStatement preparedStatement;
+    private final PreparedStatement preparedStatement;
 
     public TransactionsDao() throws SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.jdbc.Driver");
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        counter=0;
 
         String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true";
         connection = DriverManager.getConnection(url, "root", "1234");
-//		connection = DriverManager.getConnection(url , "root" ,"admin99;"); // old
         preparedStatement = connection.prepareStatement("INSERT INTO user_transactions(from_id, from_name, to_id, to_name, amount) VALUES(?,?,?,?,?)");
     }
 
     public void insert(Transaction transaction) throws SQLException {
 
 
-        preparedStatement.setInt(1, transaction.getFromId());
-        preparedStatement.setString(2, transaction.getFromName());
-        preparedStatement.setInt(3, transaction.getToId());
-        preparedStatement.setString(4, transaction.getToName());
+        preparedStatement.setInt(1, transaction.getFrom().getAccountId());
+        preparedStatement.setString(2, transaction.getFrom().getName());
+        preparedStatement.setInt(3, transaction.getTo().getAccountId());
+        preparedStatement.setString(4, transaction.getTo().getName());
         preparedStatement.setDouble(5, transaction.getAmount());
         preparedStatement.addBatch();
 
@@ -39,7 +39,7 @@ public class TransactionsDao {
         preparedStatement.executeBatch();
     }
 
-    public static void clearDatabase() throws SQLException {
+    public void clearDatabase() throws SQLException {
         String sql = "delete from user_transactions limit 2500000";
         Statement statement = connection.createStatement();
         statement.execute(sql);

@@ -12,11 +12,11 @@ public class DataHandler {
 		this.transactionsDao = new TransactionsDao();
 	}
 
-	private final String PATH = "src/main/resources/payment_full.csv";
-
 	public void readFile() throws IOException, SQLException {
-		
+		transactionsDao.clearDatabase();
 
+
+		String PATH = "src/main/resources/payment_full.csv";
 		BufferedReader bufferedReader = new BufferedReader(new FileReader((PATH)));
 		String line = bufferedReader.readLine();
 		
@@ -24,8 +24,9 @@ public class DataHandler {
 		while ((line = bufferedReader.readLine()) != null) {
 
 			String[] values = line.split(",");
-			Transaction currentTransaction = new Transaction(Integer.parseInt(values[0]), values[1],
-					Integer.parseInt(values[2]), values[3], Double.parseDouble(values[4]));
+			Transaction currentTransaction = new Transaction(new Account(Integer.parseInt(values[0]), values[1]),
+					new Account(Integer.parseInt(values[2]), values[3]), Double.parseDouble(values[4]));
+
 			transactionsDao.insert(currentTransaction);
 
 		}
