@@ -5,6 +5,12 @@ public class Transaction {
 	private int accountTo;
 	private double amount;
 
+	public Transaction(int accountFrom, int accountTo, double amount) {
+		this.accountFrom = accountFrom;
+		this.accountTo = accountTo;
+		this.amount = amount;
+	}
+
 	public int getAccountFrom() {
 		return accountFrom;
 	}
