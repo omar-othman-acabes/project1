@@ -7,6 +7,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
+import com.acabes.training.Main;
+
 public class Writer {
     public LinkedList<FullTransaction> fullTransactions = new LinkedList<>();
     int rowsNumber;
@@ -17,13 +19,16 @@ public class Writer {
     }
 
     public void writeCSVFile() throws IOException {
-        // Get the current date and time
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        // Format the current date in "dd/MM/yyyy" format
-        DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        String date = currentDateTime.format(dateFormat);
+    	// Get the current date and time
+    			LocalDateTime currentDateTime = LocalDateTime.now();
+    			// Format the current date in "dd/MM/yyyy" format
+    			DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    			String date = currentDateTime.format(dateFormat);
 
-        String filePath = "C:\\Users\\THINPAD_12\\Desktop\\" + date.replace("/", "-") + ".csv";
+    			// Replace "date1" with the actual date in the file path
+    			// replace Thinkpad_15 to your user name
+    			String filePath = Main.resourcesPath + "/payments-full" + date + ".csv";
+
         String directoryPath = new File(filePath).getParent();
         File directory = new File(directoryPath);
         directory.mkdirs();
@@ -45,7 +50,8 @@ public class Writer {
             writer.append(fromAccountNumber).append(",");
             writer.append(toAccountName).append(",");
             writer.append(toAccountNumber).append(",");
-            writer.append(amount).append(",");
+            writer.append(amount).append("\n");
+            
 
         }
         writer.close();
