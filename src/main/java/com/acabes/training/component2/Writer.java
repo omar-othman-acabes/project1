@@ -11,8 +11,7 @@ public class Writer {
     public LinkedList<Payment> paymentList = new LinkedList<>();
     int rowsNumber;
 
-    public Writer(LinkedList<Payment> paymentList, int rowsNumber)
-    {
+    public Writer(LinkedList<Payment> paymentList, int rowsNumber) throws IOException {
         this.paymentList = paymentList;
         this.rowsNumber = rowsNumber;
         writeCSVFile();
