@@ -35,7 +35,8 @@ public class Mdm {
 		String idString = Integer.toString(id);
 		String asciiName = "";
 		for (int i = 0; i < idString.length(); i++) {
-			char character = idString.charAt(i +65);
+			int number = idString.charAt(i) + 65;
+			char character = (char) number;
 			asciiName = asciiName.concat(String.valueOf(character));
 
 		}
