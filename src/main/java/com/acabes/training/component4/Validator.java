@@ -10,12 +10,12 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 public class Validator {
+    HashMap<FileName, Info> infoMap = new HashMap<>();
+    HashMap<FileName, String> pathsMap = new HashMap<>();
+
     public void setPath(FileName fileName, String path) {
         pathsMap.put(fileName, path);
     }
-
-    HashMap<FileName, Info> infoMap = new HashMap<>();
-    HashMap<FileName, String> pathsMap = new HashMap<>();
 
     public void importFileData(FileName fileName, int colIndex) throws IOException {
         int count = 0;
@@ -72,8 +72,8 @@ public class Validator {
     }
 
     public void validate() {
-        setPath(FileName.STARTING, Utils.resourcesPath + "/payment.csv");
-        setPath(FileName.FULL, Utils.resourcesPath + "/payment_full.csv");
+        setPath(FileName.STARTING, Utils.getStartingFilePath());
+        setPath(FileName.FULL, Utils.getFullFilePath());
 
         // import starting file
         try {
@@ -110,7 +110,6 @@ public class Validator {
         } else {
             System.out.println("Count is not matching");
         }
-
     }
 
     enum FileName {

@@ -10,4 +10,11 @@ public class Utils {
         DateTimeFormatter dateFormat = DateTimeFormatter.ofPattern("dd-MM-yyyy");
         return currentDateTime.format(dateFormat);
     }
+
+    public static String getStartingFilePath() {
+        return Utils.resourcesPath + "/payments-" + getDate() + ".csv";
+    }
+    public static String getFullFilePath() {
+        return Utils.resourcesPath + "/payments-" + getDate() + "-full.csv";
+    }
 }

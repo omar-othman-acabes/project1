@@ -18,7 +18,7 @@ public class DataHandler {
 		transactionsDao.clearDatabase();
 
 
-		String PATH = "src/main/resources/payment_full.csv";
+		String PATH = "src/main/resources/payments-18-04-2023-full.csv";
 		BufferedReader bufferedReader = new BufferedReader(new FileReader((PATH)));
 		String line = bufferedReader.readLine();
 		

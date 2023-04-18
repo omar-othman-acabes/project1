@@ -13,7 +13,7 @@ public class PaymentFileWriter {
 	public void createRandomStartingFile() throws IOException {
 		// Replace "date1" with the actual date in the file path
 		// replace Thinkpad_15 to your user name
-		String filePath = Utils.resourcesPath + "/payments-" + Utils.getDate() + ".csv";
+		String filePath = Utils.getStartingFilePath();
 
 		// Create the directory if it doesn't exist
 		String directoryPath = new File(filePath).getParent();
