@@ -8,10 +8,10 @@ import java.time.format.DateTimeFormatter;
 import java.util.LinkedList;
 
 public class Writer {
-    public LinkedList<Payment> paymentList = new LinkedList<>();
+    public LinkedList<FullTransaction> paymentList = new LinkedList<>();
     int rowsNumber;
 
-    public Writer(LinkedList<Payment> paymentList, int rowsNumber) throws IOException {
+    public Writer(LinkedList<FullTransaction> paymentList, int rowsNumber) throws IOException {
         this.paymentList = paymentList;
         this.rowsNumber = rowsNumber;
         writeCSVFile();
