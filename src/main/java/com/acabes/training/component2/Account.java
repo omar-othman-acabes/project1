@@ -1,3 +1,5 @@
+package com.acabes.training.component2;
+
 public class Account {
     private int accountFrom;
     private int accountTo;
