@@ -1,5 +1,7 @@
 package com.acabes.training.component3;
 
+import com.acabes.training.Utils;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,7 +20,7 @@ public class DataHandler {
 		transactionsDao.clearDatabase();
 
 
-		String PATH = "src/main/resources/payments-18-04-2023-full.csv";
+		String PATH = Utils.getFullFilePath();
 		BufferedReader bufferedReader = new BufferedReader(new FileReader((PATH)));
 		String line = bufferedReader.readLine();
 		

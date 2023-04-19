@@ -19,18 +19,22 @@ public class Validator {
 
     public void importFileData(FileName fileName, int colIndex) throws IOException {
         int count = 0;
-        long total = 0;
+        double total = 0;
 
         try (BufferedReader br = new BufferedReader(new FileReader(getPath(fileName)))) {
-            String headerLine = br.readLine();
+            br.readLine(); // ignore header
             for (String line; (line = br.readLine()) != null; ) {
                 String[] values = line.split(",");
-                total += Integer.parseInt(values[colIndex]);
+                total += Double.parseDouble(values[colIndex]);
                 count++;
             }
         }
 
         Info info = new Info(total, count);
+
+        System.out.println(fileName + " " + total);
+        System.out.println(fileName + " " + count);
+
         setInfo(fileName, info);
     }
 
@@ -68,7 +72,7 @@ public class Validator {
     }
 
     public boolean matchCount() {
-        return getCount(FileName.STARTING) == getCount(FileName.FULL);
+        return getCount(FileName.STARTING) == getCount(FileName.FULL) && getCount(FileName.STARTING) == getCount(FileName.DATABASE);
     }
 
     public void validate() {

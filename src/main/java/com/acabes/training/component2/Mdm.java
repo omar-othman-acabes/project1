@@ -1,18 +1,19 @@
 package com.acabes.training.component2;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 public class Mdm {
 
-	private final LinkedList<Transaction> initialTransactions ;
-	private final LinkedList<FullTransaction> fullTransactions ;
+	private final ArrayList<Transaction> initialTransactions ;
+	private final ArrayList<FullTransaction> fullTransactions ;
 
-	public Mdm(LinkedList<Transaction> initialTransactions) throws IOException {
+	public Mdm(ArrayList<Transaction> initialTransactions) throws IOException {
 		this.initialTransactions = initialTransactions;
-		fullTransactions = new LinkedList<>();
+		fullTransactions = new ArrayList<>();
 		getFullTransactionData();
-		Writer writer = new Writer(fullTransactions);
+		new Writer(fullTransactions);
 	}
 
 	public void getFullTransactionData() {

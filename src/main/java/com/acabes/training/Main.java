@@ -3,6 +3,7 @@ package com.acabes.training;
 import com.acabes.training.component1.PaymentFileWriter;
 import com.acabes.training.component2.Reader;
 import com.acabes.training.component3.DataHandler;
+import com.acabes.training.component4.Timer;
 import com.acabes.training.component4.Validator;
 
 import java.io.FileNotFoundException;
@@ -10,23 +11,24 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
+        Scanner scanner = new Scanner(System.in);
+        int records = scanner.nextInt();
+
+        Timer.start("Component 1");
+        runComponent1(records);
+        Timer.stop();
+
         Instant start = Instant.now();
-        runComponent1();
+        runComponent2();
         Instant end = Instant.now();
 
         Duration elapsedTime = Duration.between(start, end);
-        System.out.println("Component1 Elapsed time: " + elapsedTime.getSeconds());
-
-        start = Instant.now();
-        runComponent2();
-        end = Instant.now();
-
-        elapsedTime = Duration.between(start, end);
         System.out.println("Component2 Elapsed time: " + elapsedTime.getSeconds());
 
 
@@ -46,8 +48,8 @@ public class Main {
         System.out.println("Component4 Elapsed time: " + elapsedTime.getSeconds());
     }
 
-    public static void runComponent1() throws IOException {
-        new PaymentFileWriter().createRandomStartingFile();
+    public static void runComponent1(int records) throws IOException {
+        new PaymentFileWriter().createRandomStartingFile(records);
     }
 
     public static void runComponent2() throws NumberFormatException, FileNotFoundException {
