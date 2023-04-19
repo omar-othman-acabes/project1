@@ -6,54 +6,53 @@ import java.util.ArrayList;
 import com.acabes.training.Utils;
 
 public class Reader {
-	ArrayList<Transaction> transactions = new ArrayList<>();
-	ArrayList<String> names = new ArrayList<>();
+    ArrayList<Transaction> transactions = new ArrayList<>();
+    ArrayList<String> names = new ArrayList<>(1000);
 
-	public Reader() throws FileNotFoundException {
-		readNamesFile();
-		readDataLineByLine();
-	}
-	public void readNamesFile() {
+    public Reader() throws FileNotFoundException {
+        readNamesFile();
+        readDataLineByLine();
+    }
 
-		String line = "";
-		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("names.csv");
+    public void readNamesFile() {
 
-		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
-			reader.readLine();
-			while ((line = reader.readLine()) != null) {
-				names.add(line.toString());
+        String line = "";
 
-			}
+        try (BufferedReader reader = new BufferedReader(new FileReader(Utils.resourcesPath + "/names.csv"))) {
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                names.add(line);
+            }
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 
-	public  void readDataLineByLine() throws FileNotFoundException, NumberFormatException {
+    public void readDataLineByLine() throws FileNotFoundException, NumberFormatException {
 
-		String line = "";
+        String line = "";
 
-		try (BufferedReader br = new BufferedReader(
-				new FileReader(Utils.getInitialFilePath()))) {
+        try (BufferedReader reader = new BufferedReader(
+                new FileReader(Utils.getInitialFilePath()))) {
 
-			br.readLine();
-			while ((line = br.readLine()) != null) {
-				String[] data = line.split(",");
-				int fromAcc = Integer.parseInt(data[0]);
-				int toAcc = Integer.parseInt(data[1]);
-				double amount = Double.parseDouble(data[2]);
-				Transaction transaction = new Transaction(fromAcc, toAcc, amount);
-				transactions.add(transaction);
+            reader.readLine();
+            while ((line = reader.readLine()) != null) {
+                String[] data = line.split(",");
+                int fromAcc = Integer.parseInt(data[0]);
+                int toAcc = Integer.parseInt(data[1]);
+                double amount = Double.parseDouble(data[2]);
+                Transaction transaction = new Transaction(fromAcc, toAcc, amount);
+                transactions.add(transaction);
 
-			}
-			Mdm mdm = new Mdm(transactions, names);
+            }
+            Mdm mdm = new Mdm(transactions, names);
 
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-	}
+    }
 
 }
