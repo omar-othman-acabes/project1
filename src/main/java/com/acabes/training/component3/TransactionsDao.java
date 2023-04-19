@@ -12,7 +12,7 @@ public class TransactionsDao {
     private final Connection connection;
     private int counter;
 
-    private final PreparedStatement preparedStatement;
+    private final PreparedStatement preparedInsertStatement;
     private static TransactionsDao instance;
     public static TransactionsDao getInstance() throws SQLException, ClassNotFoundException {
         if(instance == null)
@@ -27,27 +27,29 @@ public class TransactionsDao {
 
         String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true";
         connection = DriverManager.getConnection(url, "root", "1234");
-        preparedStatement = connection.prepareStatement("INSERT INTO user_transactions(from_id, from_name, to_id, to_name, amount) VALUES(?,?,?,?,?)");
+        preparedInsertStatement = connection.prepareStatement("INSERT INTO user_transactions(from_id, from_name, to_id, to_name, amount) VALUES(?,?,?,?,?)");
     }
-
     public void insert(Transaction transaction) throws SQLException {
+        if(transaction == null)
+            throw new IllegalArgumentException("Transaction can't be null!");
 
 
-        preparedStatement.setInt(1, transaction.getFrom().getAccountId());
-        preparedStatement.setString(2, transaction.getFrom().getName());
-        preparedStatement.setInt(3, transaction.getTo().getAccountId());
-        preparedStatement.setString(4, transaction.getTo().getName());
-        preparedStatement.setDouble(5, transaction.getAmount());
-        preparedStatement.addBatch();
+        preparedInsertStatement.setInt(1, transaction.getFrom().getAccountId());
+        preparedInsertStatement.setString(2, transaction.getFrom().getName());
+        preparedInsertStatement.setInt(3, transaction.getTo().getAccountId());
+        preparedInsertStatement.setString(4, transaction.getTo().getName());
+        preparedInsertStatement.setDouble(5, transaction.getAmount());
+        preparedInsertStatement.addBatch();
 
         counter++;
+
         if (counter % 10000 == 0) {
-            preparedStatement.executeBatch();
+            executeOnce();
         }
     }
 
     public void executeOnce() throws SQLException {
-        preparedStatement.executeBatch();
+        preparedInsertStatement.executeBatch();
     }
 
     public void clearDatabase() throws SQLException {
@@ -57,5 +59,8 @@ public class TransactionsDao {
     }
     public void closeConnection() throws SQLException {
         connection.close();
+    }
+    public void closeStatement() throws SQLException {
+        preparedInsertStatement.close();
     }
 }

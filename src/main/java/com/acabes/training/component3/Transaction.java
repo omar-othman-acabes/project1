@@ -6,6 +6,8 @@ public class Transaction {
 	private final double amount;
 
 	public Transaction(Account from, Account to, double amount) {
+		if(from == null || to == null)
+			throw new IllegalArgumentException("account can't be null!");
 		this.from = from;
 		this.to = to;
 		this.amount = amount;

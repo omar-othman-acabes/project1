@@ -19,7 +19,9 @@ public class DataHandler {
 
 		String PATH = Utils.getFullFilePath();
 		BufferedReader bufferedReader = new BufferedReader(new FileReader((PATH)));
-		String line = bufferedReader.readLine();
+		String line;
+
+		bufferedReader.readLine(); //ignore the header
 		
 		while ((line = bufferedReader.readLine()) != null) {
 
@@ -32,5 +34,6 @@ public class DataHandler {
 		}
 		transactionsDao.executeOnce();
 		bufferedReader.close();
+		transactionsDao.closeStatement();
 	}
 }
