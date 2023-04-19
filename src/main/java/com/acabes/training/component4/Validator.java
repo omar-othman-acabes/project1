@@ -86,7 +86,7 @@ public class Validator {
             log("Perfect, data is valid across all components!");
         } else {
             for (String error : errors) {
-                log(error);
+                logErr(error);
             }
         }
     }

@@ -18,7 +18,7 @@ public class Reader {
 
         String line = "";
 
-        try (BufferedReader reader = new BufferedReader(new FileReader(Utils.resourcesPath + "/names.csv"))) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(Utils.resourcesPath + "/names.txt"))) {
             reader.readLine();
             while ((line = reader.readLine()) != null) {
                 names.add(line);
