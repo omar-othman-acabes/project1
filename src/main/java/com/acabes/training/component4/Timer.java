@@ -13,6 +13,7 @@ public class Timer {
     }
 
     public static void start(String timerName) {
+        System.out.println(timerName + "started.");
         Timer.timerName = timerName;
         start = Instant.now();
     }

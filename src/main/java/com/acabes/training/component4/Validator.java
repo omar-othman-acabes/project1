@@ -6,26 +6,27 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Validator {
-    HashMap<FileName, MetaData> infoMap = new HashMap<>();
-    HashMap<FileName, String> pathsMap = new HashMap<>();
+    HashMap<Storage, MetaData> infoMap = new HashMap<>();
+    HashMap<Storage, String> pathsMap = new HashMap<>();
 
     public Validator() {
-        setPath(FileName.STARTING, Utils.getStartingFilePath());
-        setPath(FileName.FULL, Utils.getFullFilePath());
+        setPath(Storage.INITIAL, Utils.getInitialFilePath());
+        setPath(Storage.FULL, Utils.getFullFilePath());
     }
 
-    public void setPath(FileName fileName, String path) {
-        pathsMap.put(fileName, path);
+    public void setPath(Storage storage, String path) {
+        pathsMap.put(storage, path);
     }
 
-    public void importFileData(FileName fileName, int colIndex) throws IOException {
+    public void importFileData(Storage storage, int colIndex) throws IOException {
         int count = 0;
         double total = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(getPath(fileName)))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getPath(storage)))) {
             br.readLine(); // ignore header
             for (String line; (line = br.readLine()) != null; ) {
                 String[] values = line.split(",");
@@ -35,97 +36,80 @@ public class Validator {
         }
 
         MetaData metaData = new MetaData(total, count);
-
-        System.out.println(fileName + " " + total);
-        System.out.println(fileName + " " + count);
-
-        setInfo(fileName, metaData);
+        setInfo(storage, metaData);
     }
 
-    public String getPath(FileName fileName) {
-        return pathsMap.get(fileName);
+    public String getPath(Storage storage) {
+        return pathsMap.get(storage);
     }
 
-    public void setInfo(FileName fileName, MetaData metaData) {
-        this.infoMap.put(fileName, metaData);
+    public void setInfo(Storage storage, MetaData metaData) {
+        this.infoMap.put(storage, metaData);
     }
 
-    public int getCount(FileName fileName) {
-        return infoMap.get(fileName).count;
+    public int getCount(Storage storage) {
+        return infoMap.get(storage).count;
     }
 
-    public double getTotal(FileName fileName) {
-        return infoMap.get(fileName).total;
+    public double getTotal(Storage storage) {
+        return infoMap.get(storage).total;
     }
 
-    public void importStartingFile() throws IOException {
-        importFileData(FileName.STARTING, 2);
+    public void importInitialFile() throws IOException {
+        importFileData(Storage.INITIAL, 2);
     }
 
     public void importFullFile() throws IOException {
-        importFileData(FileName.FULL, 4);
+        importFileData(Storage.FULL, 4);
     }
 
-    public void importDatabase() throws SQLException, ClassNotFoundException {
+    public void importDatabase() throws SQLException {
         DatabaseConnection dbConnection = new DatabaseConnection();
-        setInfo(FileName.DATABASE, dbConnection.importInfoFromDatabase());
+        setInfo(Storage.DATABASE, dbConnection.importInfoFromDatabase());
     }
 
     public boolean matchTotal() {
-        return getTotal(FileName.STARTING) == getTotal(FileName.FULL) && getTotal(FileName.STARTING) == getTotal(FileName.DATABASE);
+        return getTotal(Storage.INITIAL) == getTotal(Storage.FULL) && getTotal(Storage.INITIAL) == getTotal(Storage.DATABASE);
     }
 
     public boolean matchCount() {
-        return getCount(FileName.STARTING) == getCount(FileName.FULL) && getCount(FileName.STARTING) == getCount(FileName.DATABASE);
+        return getCount(Storage.INITIAL) == getCount(Storage.FULL) && getCount(Storage.INITIAL) == getCount(Storage.DATABASE);
     }
 
-    public void validate() {
-        // import starting file
-        try {
-            importStartingFile();
-        } catch (IOException e) {
-            System.out.println("Failed to import starting file.");
-            throw new RuntimeException(e);
-        }
+    public void validate() throws IOException, SQLException {
+        importInitialFile();
+        importFullFile();
+        importDatabase();
 
-        // import full file
-        try {
-            importFullFile();
-        } catch (IOException e) {
-            System.out.println("Failed to import full file.");
-            throw new RuntimeException(e);
-        }
-
-        // import database
-        try {
-            importDatabase();
-        } catch (SQLException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
-
-        matchMetaData();
-    }
-
-    private void matchMetaData() {
-        if (matchTotal()) {
-            System.out.println("Total is matching");
+        ArrayList<String> errors = matchMetaData();
+        if (errors.isEmpty()) {
+            System.out.println("Perfect, data is valid across all components!");
         } else {
-            System.out.println("Total is not matching");
-        }
-
-        if (matchCount()) {
-            System.out.println("Count is matching");
-        } else {
-            System.out.println("Count is not matching");
+            for (String error : errors) {
+                System.out.println(error);
+            }
         }
     }
 
-    enum FileName {
-        STARTING, FULL, DATABASE
+    /**
+     * Checks if metadata is matching across all components.
+     * @return arrayList containing all errors if any.
+     */
+    private ArrayList<String> matchMetaData() {
+        ArrayList<String> errors = new ArrayList<>(2);
+
+        if (!matchTotal()) {
+            errors.add("Total is NOT matching");
+        }
+
+        if (!matchCount()) {
+            errors.add("Count is NOT matching");
+        }
+
+        return errors;
     }
 
-    public static void main(String[] args) throws SQLException, ClassNotFoundException {
-        Validator validator = new Validator();
-        validator.validate();
+    enum Storage {
+        INITIAL, FULL, DATABASE
     }
 }

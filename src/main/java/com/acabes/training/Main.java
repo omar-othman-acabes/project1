@@ -16,6 +16,7 @@ public class Main {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
         Scanner scanner = new Scanner(System.in);
+        System.out.print("Enter number of records to generate: ");
         int records = scanner.nextInt();
 
         Timer.start("Component 1");
@@ -50,7 +51,7 @@ public class Main {
         new DataHandler().readFile();
     }
 
-    public static void runComponent4() {
+    public static void runComponent4() throws SQLException, IOException {
         new Validator().validate();
     }
 }

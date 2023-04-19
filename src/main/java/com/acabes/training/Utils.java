@@ -11,10 +11,10 @@ public class Utils {
         return currentDateTime.format(dateFormat);
     }
 
-    public static String getStartingFilePath() {
-        return Utils.resourcesPath + "/payments-" + getDate() + ".csv";
+    public static String getInitialFilePath() {
+        return String.format("%s/payments-%s.csv", Utils.resourcesPath, getDate());
     }
     public static String getFullFilePath() {
-        return Utils.resourcesPath + "/payments-" + getDate() + "-full.csv";
+        return String.format("%s/payments-%s-full.csv", Utils.resourcesPath, getDate());
     }
 }

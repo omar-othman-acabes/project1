@@ -1,12 +1,8 @@
 package com.acabes.training.component2;
 
 import java.io.*;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-import com.acabes.training.Main;
 import com.acabes.training.Utils;
 
 public class Reader {
@@ -40,7 +36,7 @@ public class Reader {
 		String line = "";
 
 		try (BufferedReader br = new BufferedReader(
-				new FileReader(Utils.getStartingFilePath()))) {
+				new FileReader(Utils.getInitialFilePath()))) {
 
 			br.readLine();
 			while ((line = br.readLine()) != null) {
