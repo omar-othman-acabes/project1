@@ -10,7 +10,7 @@ import java.sql.SQLException;
 public class DataHandler {
 	private final TransactionsDao transactionsDao;
 
-	public DataHandler() throws SQLException {
+	public DataHandler() throws SQLException, ClassNotFoundException {
 		this.transactionsDao =  TransactionsDao.getInstance();
 	}
 	public void readFile() throws IOException, SQLException {

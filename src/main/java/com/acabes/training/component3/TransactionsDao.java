@@ -14,13 +14,15 @@ public class TransactionsDao {
 
     private final PreparedStatement preparedStatement;
     private static TransactionsDao instance;
-    public static TransactionsDao getInstance() throws SQLException {
+    public static TransactionsDao getInstance() throws SQLException, ClassNotFoundException {
         if(instance == null)
             instance = new TransactionsDao();
         return instance;
     }
 
-    private TransactionsDao() throws SQLException {
+    private TransactionsDao() throws SQLException, ClassNotFoundException {
+        Class.forName("com.mysql.cj.jdbc.Driver");
+
         counter=0;
 
         String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true";

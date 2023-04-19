@@ -10,19 +10,19 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Validator {
-    HashMap<Storage, MetaData> infoMap = new HashMap<>();
-    HashMap<Storage, String> pathsMap = new HashMap<>();
+    private final HashMap<Storage, MetaData> infoMap = new HashMap<>();
+    private final HashMap<Storage, String> pathsMap = new HashMap<>();
 
     public Validator() {
         setPath(Storage.INITIAL, Utils.getInitialFilePath());
         setPath(Storage.FULL, Utils.getFullFilePath());
     }
 
-    public void setPath(Storage storage, String path) {
+    private void setPath(Storage storage, String path) {
         pathsMap.put(storage, path);
     }
 
-    public void importFileData(Storage storage, int colIndex) throws IOException {
+    private void importFileData(Storage storage, int colIndex) throws IOException {
         int count = 0;
         double total = 0;
 
@@ -39,44 +39,44 @@ public class Validator {
         setInfo(storage, metaData);
     }
 
-    public String getPath(Storage storage) {
+    private String getPath(Storage storage) {
         return pathsMap.get(storage);
     }
 
-    public void setInfo(Storage storage, MetaData metaData) {
+    private void setInfo(Storage storage, MetaData metaData) {
         this.infoMap.put(storage, metaData);
     }
 
-    public int getCount(Storage storage) {
+    private int getCount(Storage storage) {
         return infoMap.get(storage).count;
     }
 
-    public double getTotal(Storage storage) {
+    private double getTotal(Storage storage) {
         return infoMap.get(storage).total;
     }
 
-    public void importInitialFile() throws IOException {
+    private void importInitialFile() throws IOException {
         importFileData(Storage.INITIAL, 2);
     }
 
-    public void importFullFile() throws IOException {
+    private void importFullFile() throws IOException {
         importFileData(Storage.FULL, 4);
     }
 
-    public void importDatabase() throws SQLException {
+    private void importDatabase() throws SQLException, ClassNotFoundException {
         DatabaseConnection dbConnection = new DatabaseConnection();
         setInfo(Storage.DATABASE, dbConnection.importInfoFromDatabase());
     }
 
-    public boolean matchTotal() {
+    private boolean matchTotal() {
         return getTotal(Storage.INITIAL) == getTotal(Storage.FULL) && getTotal(Storage.INITIAL) == getTotal(Storage.DATABASE);
     }
 
-    public boolean matchCount() {
+    private boolean matchCount() {
         return getCount(Storage.INITIAL) == getCount(Storage.FULL) && getCount(Storage.INITIAL) == getCount(Storage.DATABASE);
     }
 
-    public void validate() throws IOException, SQLException {
+    public void validate() throws IOException, SQLException, ClassNotFoundException {
         importInitialFile();
         importFullFile();
         importDatabase();
@@ -109,7 +109,7 @@ public class Validator {
         return errors;
     }
 
-    enum Storage {
+    private enum Storage {
         INITIAL, FULL, DATABASE
     }
 }

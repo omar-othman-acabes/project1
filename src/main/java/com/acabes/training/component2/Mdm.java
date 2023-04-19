@@ -36,17 +36,27 @@ public class Mdm {
         int toAccountID = transaction.getToAccountNumber();
         double amount = transaction.getAmount();
 
-        String fromAccountName = getAccountName(toAccountID, fromAccountID);
-        String toAccountName = getAccountName(toAccountID, fromAccountID);
+        String fromAccountName = getFromAccountName(toAccountID);
+        String toAccountName = getToAccountName( fromAccountID);
 
         fullTransactions.add(new FullTransaction(fromAccountID, toAccountID, amount, fromAccountName, toAccountName));
     }
 
-    private String getAccountName(int toAccountID, int fromAccountID) {
+    private String getToAccountName(int toAccountID) {
         if (uniqueNames.containsKey(toAccountID))
             return uniqueNames.get(toAccountID);
 
-        else if (uniqueNames.containsKey(fromAccountID))
+        else {
+            String randomElement = names.get(random.nextInt(names.size()));
+            uniqueNames.put(toAccountID, randomElement);
+            return randomElement;
+        }
+
+    }
+
+    private String getFromAccountName( int fromAccountID) {
+
+       if (uniqueNames.containsKey(fromAccountID))
             return uniqueNames.get(fromAccountID);
 
         else {

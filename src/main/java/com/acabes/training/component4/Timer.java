@@ -13,14 +13,16 @@ public class Timer {
     }
 
     public static void start(String timerName) {
-        System.out.println(timerName + "started.");
+        System.out.println(timerName + " started.");
         Timer.timerName = timerName;
         start = Instant.now();
     }
 
     public static void stop() {
-        long elapsedTime = Duration.between(start, Instant.now()).getSeconds();
-        System.out.printf("%s elapsed time: %s%n", timerName, elapsedTime);
+        Instant end = Instant.now();
+        long elapsedTime = Duration.between(start, end).getSeconds();
+        System.out.printf("%s elapsed time: %s seconds.%n", timerName, elapsedTime);
+        System.out.println("=============================");
         totalElapsedTime += elapsedTime;
     }
 }

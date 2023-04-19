@@ -13,45 +13,39 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
-        Class.forName("com.mysql.cj.jdbc.Driver");
-
         Scanner scanner = new Scanner(System.in);
         System.out.print("Enter number of records to generate: ");
         int records = scanner.nextInt();
 
-        Timer.start("Component 1");
         runComponent1(records);
-        Timer.stop();
-
-        Timer.start("Component 2");
         runComponent2();
-        Timer.stop();
-
-        Timer.start("Component 3");
         runComponent3();
-        Timer.stop();
-
-        Timer.start("Component 4");
         runComponent4();
-        Timer.stop();
 
         System.out.println("Total elapsed time: " + Timer.getTotalElapsedTime());
     }
 
     public static void runComponent1(int records) throws IOException {
+        Timer.start("Component 1");
         new PaymentFileWriter().createRandomStartingFile(records);
+        Timer.stop();
     }
 
     public static void runComponent2() throws NumberFormatException, FileNotFoundException {
-       new Reader();
-
+        Timer.start("Component 2");
+        new Reader();
+        Timer.stop();
     }
 
-    public static void runComponent3() throws SQLException, ClassNotFoundException, IOException {
+    public static void runComponent3() throws SQLException, IOException, ClassNotFoundException {
+        Timer.start("Component 3");
         new DataHandler().readFile();
+        Timer.stop();
     }
 
-    public static void runComponent4() throws SQLException, IOException {
+    public static void runComponent4() throws SQLException, IOException, ClassNotFoundException {
+        Timer.start("Component 4");
         new Validator().validate();
+        Timer.stop();
     }
 }

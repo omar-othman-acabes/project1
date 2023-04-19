@@ -10,8 +10,8 @@ public class Reader {
 	ArrayList<String> names = new ArrayList<>();
 
 	public Reader() throws FileNotFoundException {
-		readDataLineByLine();
 		readNamesFile();
+		readDataLineByLine();
 	}
 	public void readNamesFile() {
 

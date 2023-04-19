@@ -10,7 +10,7 @@ public class DatabaseConnection {
     private final TransactionsDao transactionsDau;
 
 
-    public DatabaseConnection() throws SQLException {
+    public DatabaseConnection() throws SQLException, ClassNotFoundException {
         transactionsDau = TransactionsDao.getInstance();
     }
 
