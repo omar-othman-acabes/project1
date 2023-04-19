@@ -9,8 +9,6 @@ import com.acabes.training.component4.Validator;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.time.Duration;
-import java.time.Instant;
 import java.util.Scanner;
 
 public class Main {

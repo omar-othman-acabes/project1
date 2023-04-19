@@ -5,7 +5,11 @@ import java.sql.*;
 
 public class TransactionsDao {
 
-    private static Connection connection;
+    public Connection getConnection() {
+        return connection;
+    }
+
+    private final Connection connection;
     private int counter;
 
     private final PreparedStatement preparedStatement;

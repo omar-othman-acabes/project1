@@ -6,12 +6,12 @@ import java.time.Instant;
 public class Timer {
     private static Instant start;
     private static String timerName;
+    private static long totalElapsedTime = 0;
 
     public static long getTotalElapsedTime() {
         return totalElapsedTime;
     }
 
-    private static long totalElapsedTime = 0;
     public static void start(String timerName) {
         Timer.timerName = timerName;
         start = Instant.now();

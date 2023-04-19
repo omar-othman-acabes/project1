@@ -1,6 +1,5 @@
 package com.acabes.training.component4;
 
-import com.acabes.training.Main;
 import com.acabes.training.Utils;
 
 import java.io.BufferedReader;
@@ -10,8 +9,13 @@ import java.sql.SQLException;
 import java.util.HashMap;
 
 public class Validator {
-    HashMap<FileName, Info> infoMap = new HashMap<>();
+    HashMap<FileName, MetaData> infoMap = new HashMap<>();
     HashMap<FileName, String> pathsMap = new HashMap<>();
+
+    public Validator() {
+        setPath(FileName.STARTING, Utils.getStartingFilePath());
+        setPath(FileName.FULL, Utils.getFullFilePath());
+    }
 
     public void setPath(FileName fileName, String path) {
         pathsMap.put(fileName, path);
@@ -30,20 +34,20 @@ public class Validator {
             }
         }
 
-        Info info = new Info(total, count);
+        MetaData metaData = new MetaData(total, count);
 
         System.out.println(fileName + " " + total);
         System.out.println(fileName + " " + count);
 
-        setInfo(fileName, info);
+        setInfo(fileName, metaData);
     }
 
     public String getPath(FileName fileName) {
         return pathsMap.get(fileName);
     }
 
-    public void setInfo(FileName fileName, Info info) {
-        this.infoMap.put(fileName, info);
+    public void setInfo(FileName fileName, MetaData metaData) {
+        this.infoMap.put(fileName, metaData);
     }
 
     public int getCount(FileName fileName) {
@@ -76,9 +80,6 @@ public class Validator {
     }
 
     public void validate() {
-        setPath(FileName.STARTING, Utils.getStartingFilePath());
-        setPath(FileName.FULL, Utils.getFullFilePath());
-
         // import starting file
         try {
             importStartingFile();
@@ -102,7 +103,10 @@ public class Validator {
             throw new RuntimeException(e);
         }
 
-        // matching
+        matchMetaData();
+    }
+
+    private void matchMetaData() {
         if (matchTotal()) {
             System.out.println("Total is matching");
         } else {

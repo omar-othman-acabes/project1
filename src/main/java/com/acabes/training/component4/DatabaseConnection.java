@@ -1,21 +1,21 @@
 package com.acabes.training.component4;
 
+import com.acabes.training.component3.TransactionsDao;
+
 import java.sql.*;
 
 public class DatabaseConnection {
-
-    private final Connection connection;
-
     double total;
     int count;
+    private final TransactionsDao transactionsDau;
 
-    public DatabaseConnection() throws SQLException, ClassNotFoundException {
-        String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true";
-        connection = DriverManager.getConnection(url, "root", "1234");
+
+    public DatabaseConnection() throws SQLException {
+        transactionsDau = TransactionsDao.getInstance();
     }
 
-    public Info importInfoFromDatabase() throws SQLException {
-        Statement statement = connection.createStatement();
+    public MetaData importInfoFromDatabase() throws SQLException {
+        Statement statement = transactionsDau.getConnection().createStatement();
         ResultSet resultSet = statement.executeQuery("SELECT * FROM user_transactions");
 
         double total = 0;
@@ -31,9 +31,9 @@ public class DatabaseConnection {
 
         resultSet.close();
         statement.close();
-        connection.close();
+        transactionsDau.closeConnection();
 
-        return new Info(total, count);
+        return new MetaData(total, count);
     }
 
 }
