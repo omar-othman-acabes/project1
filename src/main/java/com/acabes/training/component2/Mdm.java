@@ -1,16 +1,26 @@
 package com.acabes.training.component2;
 
+import com.acabes.training.Utils;
+
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Random;
 
 public class Mdm {
 
 	private final ArrayList<Transaction> initialTransactions ;
 	private final ArrayList<FullTransaction> fullTransactions ;
+	private final  ArrayList<String> names;
+	Random random = new Random();
 
-	public Mdm(ArrayList<Transaction> initialTransactions) throws IOException {
+	public Mdm(ArrayList<Transaction> initialTransactions, ArrayList<String> names) throws IOException {
+
 		this.initialTransactions = initialTransactions;
+		this.names = names;
+
 		fullTransactions = new ArrayList<>();
 		getFullTransactionData();
 		new Writer(fullTransactions);
@@ -27,22 +37,15 @@ public class Mdm {
 		int fromAccountID = transaction.getFromAccountNumber();
 		int toAccountID = transaction.getToAccountNumber();
 		double amount = transaction.getAmount();
-		String fromAccountName = getAccountName(fromAccountID);
-		String toAccountName = getAccountName(toAccountID);
+		String fromAccountName = getAccountName();
+		String toAccountName = getAccountName();
 		fullTransactions.add(new FullTransaction(fromAccountID, toAccountID, amount, fromAccountName, toAccountName));
 	}
 
-	private String getAccountName(int id) {
-		String idString = Integer.toString(id);
-		String asciiName = "";
-		for (int i = 0; i < idString.length(); i++) {
-			int number = idString.charAt(i) + 65;
-			char character = (char) number;
-			asciiName = asciiName.concat(String.valueOf(character));
+	private String getAccountName() {
 
-		}
-
-		return asciiName;
+		String randomElement = names.get(random.nextInt(names.size()));
+		return randomElement;
 	}
 
 

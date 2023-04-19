@@ -42,7 +42,7 @@ public class Main {
     }
 
     public static void runComponent2() throws NumberFormatException, FileNotFoundException {
-        Reader.readDataLineByLine();
+       new Reader();
 
     }
 

@@ -10,8 +10,32 @@ import com.acabes.training.Main;
 import com.acabes.training.Utils;
 
 public class Reader {
-	public static void readDataLineByLine() throws FileNotFoundException, NumberFormatException {
-		ArrayList<Transaction> transactions = new ArrayList<>();
+	ArrayList<Transaction> transactions = new ArrayList<>();
+	ArrayList<String> names = new ArrayList<>();
+
+	public Reader() throws FileNotFoundException {
+		readDataLineByLine();
+		readNamesFile();
+	}
+	public void readNamesFile() {
+
+		String line = "";
+		InputStream inputStream = getClass().getClassLoader().getResourceAsStream("names.csv");
+
+		try (BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream))) {
+			reader.readLine();
+			while ((line = reader.readLine()) != null) {
+				names.add(line.toString());
+
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	public  void readDataLineByLine() throws FileNotFoundException, NumberFormatException {
 
 		String line = "";
 
@@ -28,7 +52,7 @@ public class Reader {
 				transactions.add(transaction);
 
 			}
-			Mdm mdm = new Mdm(transactions);
+			Mdm mdm = new Mdm(transactions, names);
 
 		} catch (IOException e) {
 			e.printStackTrace();
