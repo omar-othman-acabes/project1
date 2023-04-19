@@ -9,8 +9,14 @@ public class TransactionsDao {
     private int counter;
 
     private final PreparedStatement preparedStatement;
+    private static TransactionsDao instance;
+    public static TransactionsDao getInstance() throws SQLException {
+        if(instance == null)
+            instance = new TransactionsDao();
+        return instance;
+    }
 
-    public TransactionsDao() throws SQLException, ClassNotFoundException {
+    private TransactionsDao() throws SQLException {
         counter=0;
 
         String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true";
@@ -42,5 +48,8 @@ public class TransactionsDao {
         String sql = "truncate user_transactions";
         Statement statement = connection.createStatement();
         statement.execute(sql);
+    }
+    public void closeConnection() throws SQLException {
+        connection.close();
     }
 }
