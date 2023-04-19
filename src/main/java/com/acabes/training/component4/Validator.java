@@ -83,10 +83,10 @@ public class Validator {
 
         ArrayList<String> errors = matchMetaData();
         if (errors.isEmpty()) {
-            System.out.println("Perfect, data is valid across all components!");
+            log("Perfect, data is valid across all components!");
         } else {
             for (String error : errors) {
-                System.out.println(error);
+                log(error);
             }
         }
     }
@@ -112,4 +112,13 @@ public class Validator {
     private enum Storage {
         INITIAL, FULL, DATABASE
     }
+
+    private void log(String msg) {
+        System.out.printf("[VALIDATOR]: %s%n", msg);
+    }
+
+    private void logErr(String msg) {
+        System.err.printf("[VALIDATOR]: %s%n", msg);
+    }
+
 }

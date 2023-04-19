@@ -17,10 +17,10 @@ public class Main {
         System.out.print("Enter number of records to generate: ");
         int records = scanner.nextInt();
 
-        runComponent1(records);
-        runComponent2();
-        runComponent3();
-        runComponent4();
+        runComponent1(records); // generate initial payments file.
+        runComponent2(); // read initial payments file & rewrite it with the names (create full file).
+        runComponent3(); // read full file and upload its data to the database
+        runComponent4(); // read data from initial file, full file & database, and make sure they are matching.
 
         System.out.println("Total elapsed time: " + Timer.getTotalElapsedTime());
     }
