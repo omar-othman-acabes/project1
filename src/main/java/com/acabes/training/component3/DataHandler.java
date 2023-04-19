@@ -22,7 +22,6 @@ public class DataHandler {
 		String line;
 
 		bufferedReader.readLine(); //ignore the header
-		//hello
 		
 		while ((line = bufferedReader.readLine()) != null) {
 
