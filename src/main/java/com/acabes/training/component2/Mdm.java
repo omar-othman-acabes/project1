@@ -48,7 +48,7 @@ public class Mdm {
         if (name != null) {
             return name;
         } else {
-            String randomElement = names.get(random.nextInt(names.size()));
+            String randomElement = names.get(random.nextInt(names.size())) + " " +  names.get(random.nextInt(names.size())) + " " + names.get(random.nextInt(names.size())) + " " + names.get(random.nextInt(names.size()));
             uniqueNames.put(id, randomElement);
             return randomElement;
         }
