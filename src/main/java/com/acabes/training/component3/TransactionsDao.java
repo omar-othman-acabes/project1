@@ -39,7 +39,7 @@ public class TransactionsDao {
     }
 
     public void clearDatabase() throws SQLException {
-        String sql = "delete from user_transactions limit 2500000";
+        String sql = "truncate user_transactions";
         Statement statement = connection.createStatement();
         statement.execute(sql);
     }

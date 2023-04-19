@@ -24,28 +24,19 @@ public class Main {
         runComponent1(records);
         Timer.stop();
 
-        Instant start = Instant.now();
+        Timer.start("Component 2");
         runComponent2();
-        Instant end = Instant.now();
+        Timer.stop();
 
-        Duration elapsedTime = Duration.between(start, end);
-        System.out.println("Component2 Elapsed time: " + elapsedTime.getSeconds());
-
-
-        start = Instant.now();
+        Timer.start("Component 3");
         runComponent3();
-        end = Instant.now();
+        Timer.stop();
 
-        elapsedTime = Duration.between(start, end);
-        System.out.println("Component3 Elapsed time: " + elapsedTime.getSeconds());
-
-
-        start = Instant.now();
+        Timer.start("Component 4");
         runComponent4();
-        end = Instant.now();
+        Timer.stop();
 
-        elapsedTime = Duration.between(start, end);
-        System.out.println("Component4 Elapsed time: " + elapsedTime.getSeconds());
+        System.out.println("Total elapsed time: " + Timer.getTotalElapsedTime());
     }
 
     public static void runComponent1(int records) throws IOException {
@@ -53,8 +44,7 @@ public class Main {
     }
 
     public static void runComponent2() throws NumberFormatException, FileNotFoundException {
-    	Reader re = new Reader();
-		re.readDataLineByLine();
+        Reader.readDataLineByLine();
 
     }
 

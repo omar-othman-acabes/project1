@@ -24,7 +24,6 @@ public class DataHandler {
 		BufferedReader bufferedReader = new BufferedReader(new FileReader((PATH)));
 		String line = bufferedReader.readLine();
 		
-		long startTime = System.currentTimeMillis() /1000;
 		while ((line = bufferedReader.readLine()) != null) {
 
 			String[] values = line.split(",");
@@ -36,9 +35,6 @@ public class DataHandler {
 		}
 		transactionsDao.executeOnce();
 		bufferedReader.close();
-		long totalTime = System.currentTimeMillis() /1000 - startTime;
-		
-		System.out.println("Elapsed Time: " + totalTime);
 	}
 
 }
