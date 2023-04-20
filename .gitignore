@@ -2,10 +2,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-src/main/resources/payments-18-04-2023.csv
-src/main/resources/payments-18-04-2023-full.csv
-!**/src/main/resources/payments-19-04-2023.csv
-!**/src/main/resources/payments-19-04-2023-full.csv
+/src/main/resources/*.csv
 
 ### IntelliJ IDEA ###
 .idea/modules.xml
