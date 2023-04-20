@@ -14,6 +14,7 @@ public class DataHandler {
 		this.transactionsDao =  TransactionsDao.getInstance();
 	}
 	public void readFile() throws IOException, SQLException {
+
 		transactionsDao.clearDatabase();
 
 
