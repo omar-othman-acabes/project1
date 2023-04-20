@@ -43,13 +43,13 @@ public class TransactionsDao {
 
         counter++;
 
-        if (counter % 10000 == 0) {
+        if (counter % 2000 == 0) { // 2000 is the golden number.
             executeOnce();
         }
     }
 
     public void executeOnce() throws SQLException {
-        preparedInsertStatement.executeBatch();
+       int[] results= preparedInsertStatement.executeBatch();
     }
 
     public void clearDatabase() throws SQLException {

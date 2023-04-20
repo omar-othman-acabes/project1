@@ -22,23 +22,6 @@ public class Validator {
         pathsMap.put(storage, path);
     }
 
-    private void importFileData(Storage storage, int colIndex) throws IOException {
-        int count = 0;
-        double total = 0;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(getPath(storage)))) {
-            br.readLine(); // ignore header
-            for (String line; (line = br.readLine()) != null; ) {
-                String[] values = line.split(",");
-                total += Double.parseDouble(values[colIndex]);
-                count++;
-            }
-        }
-
-        MetaData metaData = new MetaData(total, count);
-        setInfo(storage, metaData);
-    }
-
     private String getPath(Storage storage) {
         return pathsMap.get(storage);
     }
@@ -74,6 +57,23 @@ public class Validator {
 
     private boolean matchCount() {
         return getCount(Storage.INITIAL) == getCount(Storage.FULL) && getCount(Storage.INITIAL) == getCount(Storage.DATABASE);
+    }
+
+    private void importFileData(Storage storage, int colIndex) throws IOException {
+        int count = 0;
+        double total = 0;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(getPath(storage)))) {
+            br.readLine(); // ignore header
+            for (String line; (line = br.readLine()) != null; ) {
+                String[] values = line.split(",");
+                total += Double.parseDouble(values[colIndex]);
+                count++;
+            }
+        }
+
+        MetaData metaData = new MetaData(total, count);
+        setInfo(storage, metaData);
     }
 
     public void validate() throws IOException, SQLException, ClassNotFoundException {
@@ -113,12 +113,11 @@ public class Validator {
         INITIAL, FULL, DATABASE
     }
 
-    private void log(String msg) {
+    static void log(String msg) {
         System.out.printf("[VALIDATOR]: %s%n", msg);
     }
 
-    private void logErr(String msg) {
+    static void logErr(String msg) {
         System.err.printf("[VALIDATOR]: %s%n", msg);
     }
-
 }
