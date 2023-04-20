@@ -10,32 +10,24 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Validator {
-    private final HashMap<Storage, MetaData> infoMap = new HashMap<>();
+    private final HashMap<Storage, MetaData> metaDataMap = new HashMap<>();
     private final HashMap<Storage, String> pathsMap = new HashMap<>();
 
     public Validator() {
-        setPath(Storage.INITIAL, Utils.getInitialFilePath());
-        setPath(Storage.FULL, Utils.getFullFilePath());
+        pathsMap.put(Storage.INITIAL, Utils.getInitialFilePath());
+        pathsMap.put(Storage.FULL, Utils.getFullFilePath());
     }
 
-    private void setPath(Storage storage, String path) {
-        pathsMap.put(storage, path);
-    }
-
-    private String getPath(Storage storage) {
-        return pathsMap.get(storage);
-    }
-
-    private void setInfo(Storage storage, MetaData metaData) {
-        this.infoMap.put(storage, metaData);
+    private void setMetaData(Storage storage, MetaData metaData) {
+        metaDataMap.put(storage, metaData);
     }
 
     private int getCount(Storage storage) {
-        return infoMap.get(storage).count;
+        return metaDataMap.get(storage).count;
     }
 
     private double getTotal(Storage storage) {
-        return infoMap.get(storage).total;
+        return metaDataMap.get(storage).total;
     }
 
     private void importInitialFile() throws IOException {
@@ -48,7 +40,7 @@ public class Validator {
 
     private void importDatabase() throws SQLException, ClassNotFoundException {
         DatabaseConnection dbConnection = new DatabaseConnection();
-        setInfo(Storage.DATABASE, dbConnection.importInfoFromDatabase());
+        setMetaData(Storage.DATABASE, dbConnection.importInfoFromDatabase());
     }
 
     /**
@@ -107,8 +99,8 @@ public class Validator {
         int count = 0;
         double total = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(getPath(file)))) {
-            br.readLine(); // ignore header
+        try (BufferedReader br = new BufferedReader(new FileReader(pathsMap.get(file)))) {
+            br.readLine(); // skip header
             for (String line; (line = br.readLine()) != null; ) {
                 String[] values = line.split(",");
                 total += Double.parseDouble(values[colIndex]);
@@ -117,7 +109,7 @@ public class Validator {
         }
 
         MetaData metaData = new MetaData(total, count);
-        setInfo(file, metaData);
+        setMetaData(file, metaData);
     }
 
     public void validate() throws IOException, SQLException, ClassNotFoundException {
