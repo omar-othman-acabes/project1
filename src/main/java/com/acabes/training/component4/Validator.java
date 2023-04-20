@@ -51,19 +51,63 @@ public class Validator {
         setInfo(Storage.DATABASE, dbConnection.importInfoFromDatabase());
     }
 
-    private boolean matchTotal() {
-        return getTotal(Storage.INITIAL) == getTotal(Storage.FULL) && getTotal(Storage.INITIAL) == getTotal(Storage.DATABASE);
+    /**
+     * Checks if total amount is matching across all components.
+     *
+     * @return arrayList of string containing all errors if any.
+     */
+    private ArrayList<String> matchTotal() {
+        ArrayList<String> errors = new ArrayList<>(2);
+
+        if (getTotal(Storage.INITIAL) != getTotal(Storage.FULL)) {
+            errors.add("Total amount mismatch between (initial.csv & full.csv)");
+        }
+
+        if (getTotal(Storage.FULL) != getTotal(Storage.DATABASE)) {
+            errors.add("Total amount mismatch between (full.csv & database)");
+        }
+
+        return errors;
     }
 
-    private boolean matchCount() {
-        return getCount(Storage.INITIAL) == getCount(Storage.FULL) && getCount(Storage.INITIAL) == getCount(Storage.DATABASE);
+    /**
+     * Checks if record count is matching across all components.
+     *
+     * @return arrayList of string containing all errors if any.
+     */
+    private ArrayList<String> matchCount() {
+        ArrayList<String> errors = new ArrayList<>(2);
+
+        if (getCount(Storage.INITIAL) != getCount(Storage.FULL)) {
+            errors.add("Record count mismatch between (initial.csv & full.csv)");
+        }
+
+        if (getCount(Storage.FULL) != getCount(Storage.DATABASE)) {
+            errors.add("Record count mismatch between (full.csv & database)");
+        }
+
+        return errors;
     }
 
-    private void importFileData(Storage storage, int colIndex) throws IOException {
+    /**
+     * Checks if metadata is matching across all components.
+     *
+     * @return arrayList of string containing all errors if any.
+     */
+    private ArrayList<String> matchMetaData() {
+        ArrayList<String> errors = new ArrayList<>(2);
+
+        errors.addAll(matchTotal());
+        errors.addAll(matchCount());
+
+        return errors;
+    }
+
+    private void importFileData(Storage file, int colIndex) throws IOException {
         int count = 0;
         double total = 0;
 
-        try (BufferedReader br = new BufferedReader(new FileReader(getPath(storage)))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(getPath(file)))) {
             br.readLine(); // ignore header
             for (String line; (line = br.readLine()) != null; ) {
                 String[] values = line.split(",");
@@ -73,15 +117,18 @@ public class Validator {
         }
 
         MetaData metaData = new MetaData(total, count);
-        setInfo(storage, metaData);
+        setInfo(file, metaData);
     }
 
     public void validate() throws IOException, SQLException, ClassNotFoundException {
         importInitialFile();
         importFullFile();
         importDatabase();
-
         ArrayList<String> errors = matchMetaData();
+        printReport(errors);
+    }
+
+    private static void printReport(ArrayList<String> errors) {
         if (errors.isEmpty()) {
             log("Perfect, data is valid across all components!");
         } else {
@@ -89,24 +136,6 @@ public class Validator {
                 logErr(error);
             }
         }
-    }
-
-    /**
-     * Checks if metadata is matching across all components.
-     * @return arrayList containing all errors if any.
-     */
-    private ArrayList<String> matchMetaData() {
-        ArrayList<String> errors = new ArrayList<>(2);
-
-        if (!matchTotal()) {
-            errors.add("Total is NOT matching");
-        }
-
-        if (!matchCount()) {
-            errors.add("Count is NOT matching");
-        }
-
-        return errors;
     }
 
     private enum Storage {
