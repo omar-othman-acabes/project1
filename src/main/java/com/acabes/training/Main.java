@@ -2,7 +2,7 @@ package com.acabes.training;
 
 import com.acabes.training.component1.PaymentFileWriter;
 import com.acabes.training.component2.Reader;
-import com.acabes.training.component3.DataHandler;
+import com.acabes.training.component3.TransactionsDao;
 import com.acabes.training.component4.Timer;
 import com.acabes.training.component4.Validator;
 
@@ -37,9 +37,9 @@ public class Main {
         Timer.stop();
     }
 
-    public static void runComponent3() throws SQLException, IOException, ClassNotFoundException {
+    public static void runComponent3() throws SQLException, ClassNotFoundException {
         Timer.start("Component 3");
-        new DataHandler().readFile();
+        TransactionsDao.getInstance().insertCsvFile();
         Timer.stop();
     }
 

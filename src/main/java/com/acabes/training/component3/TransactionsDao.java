@@ -1,6 +1,9 @@
 package com.acabes.training.component3;
 
 
+import com.acabes.training.Utils;
+
+import java.io.File;
 import java.sql.*;
 
 public class TransactionsDao {
@@ -10,12 +13,10 @@ public class TransactionsDao {
     }
 
     private final Connection connection;
-    private int counter;
-
-    private final PreparedStatement preparedInsertStatement;
     private static TransactionsDao instance;
+
     public static TransactionsDao getInstance() throws SQLException, ClassNotFoundException {
-        if(instance == null)
+        if (instance == null)
             instance = new TransactionsDao();
         return instance;
     }
@@ -23,33 +24,17 @@ public class TransactionsDao {
     private TransactionsDao() throws SQLException, ClassNotFoundException {
         Class.forName("com.mysql.cj.jdbc.Driver");
 
-        counter=0;
-
-        String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true";
+        String url = "jdbc:mysql://localhost:3306/acabes?rewriteBatchedStatements=true&allowLoadLocalInfile=true";
         connection = DriverManager.getConnection(url, "root", "1234");
-        preparedInsertStatement = connection.prepareStatement("INSERT INTO user_transactions(from_id, from_name, to_id, to_name, amount) VALUES(?,?,?,?,?)");
-    }
-    public void insert(Transaction transaction) throws SQLException {
-        if(transaction == null)
-            throw new IllegalArgumentException("Transaction can't be null!");
-
-
-        preparedInsertStatement.setInt(1, transaction.getFrom().getAccountId());
-        preparedInsertStatement.setString(2, transaction.getFrom().getName());
-        preparedInsertStatement.setInt(3, transaction.getTo().getAccountId());
-        preparedInsertStatement.setString(4, transaction.getTo().getName());
-        preparedInsertStatement.setDouble(5, transaction.getAmount());
-        preparedInsertStatement.addBatch();
-
-        counter++;
-
-        if (counter % 10000 == 0) {
-            executeOnce();
-        }
     }
 
-    public void executeOnce() throws SQLException {
-        preparedInsertStatement.executeBatch();
+    public void insertCsvFile() throws SQLException {
+        final String absoluteResourcesPath = new File(Utils.getFullFilePath()).getAbsolutePath().replace("\\", "/");
+        clearDatabase();
+        connection.createStatement().execute(String.format("LOAD DATA LOCAL INFILE '%s' INTO TABLE user_transactions FIELDS TERMINATED BY ',' ENCLOSED BY '\"' LINES TERMINATED BY '\\n' IGNORE 1 ROWS;",
+                        absoluteResourcesPath
+                )
+        );
     }
 
     public void clearDatabase() throws SQLException {
@@ -57,10 +42,8 @@ public class TransactionsDao {
         Statement statement = connection.createStatement();
         statement.execute(sql);
     }
+
     public void closeConnection() throws SQLException {
         connection.close();
-    }
-    public void closeStatement() throws SQLException {
-        preparedInsertStatement.close();
     }
 }
