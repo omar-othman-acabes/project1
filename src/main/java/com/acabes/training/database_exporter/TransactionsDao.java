@@ -1,4 +1,4 @@
-package com.acabes.training.component3;
+package com.acabes.training.database_exporter;
 
 
 import com.acabes.training.Utils;

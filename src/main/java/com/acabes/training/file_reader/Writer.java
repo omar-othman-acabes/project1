@@ -1,14 +1,10 @@
-package com.acabes.training.component2;
+package com.acabes.training.file_reader;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.LinkedList;
 
-import com.acabes.training.Main;
 import com.acabes.training.Utils;
 
 public class Writer {

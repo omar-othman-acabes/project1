@@ -1,4 +1,4 @@
-package com.acabes.training.component2;
+package com.acabes.training.file_reader;
 
 import java.io.IOException;
 import java.util.ArrayList;

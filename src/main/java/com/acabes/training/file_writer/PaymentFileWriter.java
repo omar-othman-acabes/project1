@@ -1,4 +1,4 @@
-package com.acabes.training.component1;
+package com.acabes.training.file_writer;
 
 import com.acabes.training.Utils;
 

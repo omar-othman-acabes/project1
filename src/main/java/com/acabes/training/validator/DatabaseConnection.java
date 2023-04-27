@@ -1,6 +1,6 @@
-package com.acabes.training.component4;
+package com.acabes.training.validator;
 
-import com.acabes.training.component3.TransactionsDao;
+import com.acabes.training.database_exporter.TransactionsDao;
 
 import java.sql.*;
 

@@ -1,4 +1,4 @@
-package com.acabes.training.component2;
+package com.acabes.training.file_reader;
 
 public class Transaction {
 	private int fromAccountNumber;

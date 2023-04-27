@@ -1,10 +1,10 @@
 package com.acabes.training;
 
-import com.acabes.training.component1.PaymentFileWriter;
-import com.acabes.training.component2.Reader;
-import com.acabes.training.component3.TransactionsDao;
-import com.acabes.training.component4.Timer;
-import com.acabes.training.component4.Validator;
+import com.acabes.training.file_writer.PaymentFileWriter;
+import com.acabes.training.file_reader.Reader;
+import com.acabes.training.database_exporter.TransactionsDao;
+import com.acabes.training.validator.Timer;
+import com.acabes.training.validator.Validator;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,34 +17,34 @@ public class Main {
         System.out.print("Enter number of records to generate: ");
         int records = scanner.nextInt();
 
-        runComponent1(records); // generate initial payments file.
-        runComponent2(); // read initial payments file & rewrite it with the names (create full file).
-        runComponent3(); // read full file and upload its data to the database
-        runComponent4(); // read data from initial file, full file & database, and make sure they are matching.
+        runFileWriter(records); // generate initial payments file.
+        runFileReader(); // read initial payments file & rewrite it with the names (create full file).
+        runDatabaseExporter(); // read full file and upload its data to the database
+        runValidator(); // read data from initial file, full file & database, and make sure they are matching.
 
         System.out.println("Total elapsed time: " + Timer.getTotalElapsedTime());
     }
 
-    public static void runComponent1(int records) throws IOException {
-        Timer.start("Component 1");
+    public static void runFileWriter(int records) throws IOException {
+        Timer.start("File Writer");
         new PaymentFileWriter().createRandomStartingFile(records);
         Timer.stop();
     }
 
-    public static void runComponent2() throws NumberFormatException, FileNotFoundException {
-        Timer.start("Component 2");
+    public static void runFileReader() throws NumberFormatException, FileNotFoundException {
+        Timer.start("File Reader");
         new Reader();
         Timer.stop();
     }
 
-    public static void runComponent3() throws SQLException, ClassNotFoundException {
-        Timer.start("Component 3");
+    public static void runDatabaseExporter() throws SQLException, ClassNotFoundException {
+        Timer.start("Database Exporter");
         TransactionsDao.getInstance().insertCsvFile();
         Timer.stop();
     }
 
-    public static void runComponent4() throws SQLException, IOException, ClassNotFoundException {
-        Timer.start("Component 4");
+    public static void runValidator() throws SQLException, IOException, ClassNotFoundException {
+        Timer.start("Validator");
         new Validator().validate();
         Timer.stop();
     }

@@ -1,4 +1,4 @@
-package com.acabes.training.component4;
+package com.acabes.training.validator;
 
 public class MetaData {
     final double total;

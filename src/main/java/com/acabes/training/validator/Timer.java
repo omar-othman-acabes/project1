@@ -1,4 +1,4 @@
-package com.acabes.training.component4;
+package com.acabes.training.validator;
 
 import java.time.Duration;
 import java.time.Instant;
